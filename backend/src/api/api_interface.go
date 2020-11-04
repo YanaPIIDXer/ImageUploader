@@ -1,14 +1,16 @@
 package api
 
 import (
-	"encoding/json"
+	"net/http"
 	"github.com/gin-gonic/gin"
+
+	"server/api/http_method"
 )
 
 // APIインタフェース
 type ApiInterface interface {
 	// APIの呼び出し
-	Call(request gin.Context) interface {}
+	Call(context *gin.Context) interface {}
 }
 
 // APIクラス
@@ -17,15 +19,19 @@ type Api struct {
 }
 
 // アクセス時の処理
-func (this Api) OnRequest(request gin.Context) []byte {
-	response := this.request
-	responseJson, _ := json.Marshal(response)
-	return responseJson
+func (this Api) OnRequest(context *gin.Context) {
+	response := this.request.Call(context)
+	context.JSON(http.StatusOK, response)
 }
 
-// APIを生成
-func MakeAPI(request ApiInterface) *Api {
+// APIを登録
+func RegisterAPI(router *gin.Engine, endpoint string, method http_method.HttpMethod, request ApiInterface) {
 	api := new(Api)
 	api.request = request
-	return api
+	switch method {
+		case http_method.POST:
+			router.POST(endpoint, api.OnRequest)
+		case http_method.GET:
+			router.GET(endpoint, api.OnRequest)
+	}
 }
