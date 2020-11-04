@@ -11,4 +11,14 @@ services:
             - CHOKIDAR_USEPOLLING=true
         tty: true
         restart: always
+
+    backend:
+        build: ./backend
+        volumes:
+            - ./backend/src:/go/src/server
+        ports:
+            - 3000:3000
+        command: realize start --name='server' --run
+        tty: true
+        restart: always
         
