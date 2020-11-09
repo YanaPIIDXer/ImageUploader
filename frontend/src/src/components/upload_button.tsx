@@ -2,10 +2,16 @@ import React from 'react';
 import Button from '@material-ui/core/Button';
 
 class UploadButton extends React.Component {
-    render() {
+    private onClickHandle = () => {
+        alert("onClickHandle");
+    };
+
+    public render() {
         return (
-            <Button variant="contained" color="primary">Choose a file.</Button>
-        )
+            <Button variant="contained" color="primary" onClick={this.onClickHandle}>
+                Choose a file.
+            </Button>
+        );
     }
 }
 
