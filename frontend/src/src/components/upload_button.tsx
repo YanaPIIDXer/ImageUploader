@@ -1,9 +1,10 @@
 import React from 'react';
+import Button from '@material-ui/core/Button';
 
 class UploadButton extends React.Component {
     render() {
         return (
-            <button>Choose a file.</button>
+            <Button variant="contained" color="primary">Choose a file.</Button>
         )
     }
 }
